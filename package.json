@@ -1,0 +1,15 @@
+{
+  "name": "project-forge-root",
+  "version": "1.0.0",
+  "description": "Project Forge - Collaborative Project Platform for Students",
+  "scripts": {
+    "install-all": "npm install && npm install --prefix server && npm install --prefix client",
+    "server": "cd server && npm run dev",
+    "client": "cd client && npm run dev",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "seed": "cd server && npm run seed"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
