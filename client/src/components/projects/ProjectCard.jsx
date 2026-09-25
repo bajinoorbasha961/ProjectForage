@@ -38,7 +38,7 @@ export const ProjectCard = ({ project }) => {
   const memberCount = project.currentMemberCount || (project.members ? project.members.length : 1);
 
   return (
-    <div className="group relative bg-slate-900/90 border border-slate-800 hover:border-brand-500/50 rounded-2xl p-6 flex flex-col justify-between transition-all duration-300 hover:shadow-xl hover:shadow-brand-500/5 hover:-translate-y-1">
+    <div className="group relative glass-card-3d rounded-3xl p-6 flex flex-col justify-between transition-all duration-300 transform-gpu">
       <div>
         {/* Header Badges */}
         <div className="flex items-center justify-between gap-2 mb-3">
@@ -51,25 +51,25 @@ export const ProjectCard = ({ project }) => {
             </Badge>
           </div>
           {project.lookingForTeammates && (
-            <span className="flex items-center gap-1 text-[11px] font-semibold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">
-              <Sparkles className="w-3 h-3" /> Hiring
+            <span className="flex items-center gap-1 text-[11px] font-bold text-lavender-200 bg-brand-500/20 px-2.5 py-0.5 rounded-full border border-brand-400/40 shadow-[0_0_10px_rgba(168,85,247,0.3)]">
+              <Sparkles className="w-3 h-3 text-brand-300 animate-pulse" /> Hiring
             </span>
           )}
         </div>
 
         {/* Title & Description */}
         <Link to={`/projects/${project._id}`}>
-          <h3 className="text-lg font-bold text-white group-hover:text-brand-400 transition-colors line-clamp-1 mb-2">
+          <h3 className="text-lg font-extrabold text-white group-hover:text-brand-300 transition-colors line-clamp-1 mb-2">
             {project.title}
           </h3>
         </Link>
-        <p className="text-xs text-slate-400 line-clamp-2 mb-4 leading-relaxed">
+        <p className="text-xs text-purple-200/80 line-clamp-2 mb-4 leading-relaxed font-normal">
           {project.shortDescription}
         </p>
 
         {/* Required Skills Badges */}
         <div className="mb-4">
-          <p className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider mb-2">
+          <p className="text-[10px] font-extrabold text-purple-400 uppercase tracking-widest mb-2">
             Required Skills
           </p>
           <div className="flex flex-wrap gap-1.5">
@@ -89,26 +89,26 @@ export const ProjectCard = ({ project }) => {
 
       <div>
         {/* Progress Bar */}
-        <div className="mb-4 pt-3 border-t border-slate-800/80">
+        <div className="mb-4 pt-3 border-t border-purple-500/20">
           <ProgressBar progress={project.progress || 0} size="sm" />
         </div>
 
         {/* Footer info: Creator & Team count */}
-        <div className="flex items-center justify-between pt-2 text-xs text-slate-400">
+        <div className="flex items-center justify-between pt-2 text-xs text-purple-200">
           <div className="flex items-center gap-2">
             <img
               src={project.owner?.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${project.owner?.name}`}
               alt={project.owner?.name}
-              className="w-6 h-6 rounded-full bg-slate-800 object-cover"
+              className="w-6 h-6 rounded-full bg-purple-950 object-cover border border-purple-400/40"
             />
-            <span className="truncate max-w-[100px] text-slate-300 font-medium">
+            <span className="truncate max-w-[100px] text-purple-200 font-semibold">
               {project.owner?.name || 'Student'}
             </span>
           </div>
 
           <div className="flex items-center gap-4">
-            <div className="flex items-center gap-1 font-medium text-slate-300">
-              <Users className="w-3.5 h-3.5 text-slate-400" />
+            <div className="flex items-center gap-1 font-semibold text-purple-200">
+              <Users className="w-3.5 h-3.5 text-brand-300" />
               <span>
                 {memberCount}/{project.teamSize || 4}
               </span>
@@ -116,9 +116,9 @@ export const ProjectCard = ({ project }) => {
 
             <Link
               to={`/projects/${project._id}`}
-              className="inline-flex items-center gap-1 font-semibold text-brand-400 hover:text-brand-300 transition-colors"
+              className="inline-flex items-center gap-1 font-bold text-brand-300 hover:text-white transition-colors group-hover:translate-x-0.5"
             >
-              Details <ArrowRight className="w-3.5 h-3.5" />
+              Details <ArrowRight className="w-3.5 h-3.5 text-brand-300" />
             </Link>
           </div>
         </div>
@@ -126,3 +126,4 @@ export const ProjectCard = ({ project }) => {
     </div>
   );
 };
+

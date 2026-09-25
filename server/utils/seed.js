@@ -3,8 +3,9 @@ const bcrypt = require('bcryptjs');
 const dotenv = require('dotenv');
 const connectDB = require('../config/db');
 
-// Load environment variables
-dotenv.config({ path: '../.env' });
+const path = require('path');
+// Load environment variables from server/.env
+dotenv.config({ path: path.join(__dirname, '../.env') });
 
 // Models
 const User = require('../models/User');

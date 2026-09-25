@@ -28,7 +28,8 @@ const ProtectedRoute = ({ children }) => {
   const { isAuthenticated, loading } = useAuth();
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center text-slate-400 text-xs">
+      <div className="min-h-screen bg-[#0a0518] flex flex-col items-center justify-center text-slate-300 text-sm font-medium">
+        <div className="w-12 h-12 border-4 border-brand-500/30 border-t-brand-400 rounded-full animate-spin mb-4 shadow-[0_0_15px_#c084fc]"></div>
         Loading Project Forge...
       </div>
     );
@@ -43,22 +44,23 @@ const AppLayout = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center text-slate-400 text-xs">
+      <div className="min-h-screen bg-[#0a0518] flex flex-col items-center justify-center text-slate-300 text-sm font-medium">
+        <div className="w-12 h-12 border-4 border-brand-500/30 border-t-brand-400 rounded-full animate-spin mb-4 shadow-[0_0_15px_#c084fc]"></div>
         Initializing Project Forge...
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans">
+    <div className="min-h-screen bg-[#0a0518] text-slate-100 flex flex-col font-sans relative overflow-x-hidden">
       <Navbar toggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
 
-      <div className="flex-1 flex w-full">
+      <div className="flex-1 flex w-full z-10">
         {isAuthenticated && (
           <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
         )}
 
-        <main className="flex-1 p-4 lg:p-8 max-w-7xl mx-auto w-full">
+        <main className="flex-1 p-4 lg:p-8 max-w-7xl mx-auto w-full z-10 relative">
           <Routes>
             {/* Public Routes */}
             <Route path="/" element={isAuthenticated ? <Navigate to="/dashboard" replace /> : <LandingPage />} />
@@ -97,11 +99,13 @@ export default function App() {
             position="top-right"
             toastOptions={{
               style: {
-                background: '#0f172a',
-                color: '#f8fafc',
-                border: '1px solid #334155',
-                borderRadius: '12px',
-                fontSize: '13px',
+                background: 'rgba(23, 14, 44, 0.95)',
+                color: '#f3e8ff',
+                border: '1px solid rgba(192, 132, 252, 0.3)',
+                borderRadius: '16px',
+                fontSize: '14px',
+                boxShadow: '0 10px 30px rgba(168, 85, 247, 0.3)',
+                backdropFilter: 'blur(12px)',
               },
             }}
           />
@@ -111,3 +115,5 @@ export default function App() {
     </BrowserRouter>
   );
 }
+
+

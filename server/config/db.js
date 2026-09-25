@@ -4,10 +4,10 @@ const connectDB = async () => {
   try {
     const mongoUri = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/project_forge';
     
-    // Attempt connection to specified MONGO_URI with short timeout to detect offline local server
+    // Attempt connection to specified MONGO_URI with reasonable timeout for cloud connections
     try {
       const conn = await mongoose.connect(mongoUri, {
-        serverSelectionTimeoutMS: 2000,
+        serverSelectionTimeoutMS: 5000,
       });
       console.log(`MongoDB Connected: ${conn.connection.host}`);
       return conn;

@@ -17,6 +17,8 @@ import {
   ArrowRight,
   Calendar,
   Sparkles,
+  Layers,
+  Zap,
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 
@@ -55,74 +57,74 @@ export const DashboardPage = () => {
   const recentActivities = dashboardData?.recentActivities || [];
 
   return (
-    <div className="space-y-8 animate-fadeIn">
-      {/* Welcome Banner */}
-      <div className="bg-gradient-to-r from-brand-900/80 via-slate-900 to-brand-950 border border-brand-500/20 rounded-3xl p-6 sm:p-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 shadow-xl relative overflow-hidden">
-        <div className="space-y-2 z-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-500/10 border border-brand-500/20 text-brand-400 text-xs font-semibold">
-            <Sparkles className="w-3.5 h-3.5" /> Student Developer Portal
+    <div className="space-y-8 animate-fadeIn pb-12">
+      {/* Welcome 3D Glass Banner */}
+      <div className="glass-card-3d rounded-3xl p-6 sm:p-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 relative overflow-hidden border-2 border-brand-400/40">
+        <div className="space-y-3 z-10">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-500/20 border border-brand-400/40 text-brand-200 text-xs font-bold shadow-[0_0_12px_rgba(168,85,247,0.3)]">
+            <Sparkles className="w-3.5 h-3.5 text-brand-300 animate-spin-slow" /> Student Developer Portal 3D
           </div>
-          <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
-            Welcome back, {user?.name || 'Rahul'} 👋
+          <h1 className="text-3xl sm:text-4xl font-black text-white tracking-tight">
+            Welcome back, <span className="text-lavender-gradient text-lavender-glow">{user?.name || 'Rahul'}</span> 👋
           </h1>
-          <p className="text-xs sm:text-sm text-slate-300 max-w-xl">
-            You have {upcomingTasks.length} upcoming tasks requiring your attention across your project teams.
+          <p className="text-xs sm:text-sm text-purple-200/90 max-w-xl font-medium">
+            You have <span className="font-extrabold text-brand-300">{upcomingTasks.length} upcoming tasks</span> requiring your attention across your active project teams.
           </p>
         </div>
 
         <div className="flex gap-3 z-10">
           <Link to="/projects/create">
-            <button className="inline-flex items-center gap-2 bg-brand-600 hover:bg-brand-500 text-white font-medium text-xs px-4 py-2.5 rounded-xl shadow-lg shadow-brand-600/20 transition-all">
+            <button className="inline-flex items-center gap-2 bg-gradient-to-r from-brand-500 to-brand-700 hover:from-brand-400 hover:to-brand-600 text-white font-extrabold text-xs px-5 py-3 rounded-xl shadow-[0_6px_0_#581c87,0_10px_20px_rgba(168,85,247,0.4)] active:translate-y-1 transition-all">
               <PlusCircle className="w-4 h-4" /> Create Project
             </button>
           </Link>
         </div>
       </div>
 
-      {/* Statistics Metric Cards */}
-      <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
-        <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5">
-          <div className="flex items-center justify-between text-slate-400 mb-2">
-            <span className="text-xs font-semibold">Projects Created</span>
-            <FolderKanban className="w-4 h-4 text-brand-400" />
+      {/* Statistics Metric Cards with 3D Depth */}
+      <div className="grid grid-cols-2 lg:grid-cols-5 gap-5">
+        <div className="glass-card-3d rounded-2xl p-5">
+          <div className="flex items-center justify-between text-purple-300 mb-2">
+            <span className="text-xs font-bold uppercase tracking-wider">Created</span>
+            <FolderKanban className="w-4 h-4 text-brand-300" />
           </div>
-          <div className="text-2xl font-black text-white">{stats.projectsCreated}</div>
-          <p className="text-[10px] text-slate-500 mt-1">Owned by you</p>
+          <div className="text-3xl font-black text-white text-lavender-glow">{stats.projectsCreated}</div>
+          <p className="text-[10px] text-purple-400 mt-1 font-semibold">Owned by you</p>
         </div>
 
-        <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5">
-          <div className="flex items-center justify-between text-slate-400 mb-2">
-            <span className="text-xs font-semibold">Projects Joined</span>
-            <FolderKanban className="w-4 h-4 text-purple-400" />
+        <div className="glass-card-3d rounded-2xl p-5">
+          <div className="flex items-center justify-between text-purple-300 mb-2">
+            <span className="text-xs font-bold uppercase tracking-wider">Joined</span>
+            <FolderKanban className="w-4 h-4 text-lavender-300" />
           </div>
-          <div className="text-2xl font-black text-white">{stats.projectsJoined}</div>
-          <p className="text-[10px] text-slate-500 mt-1">Total memberships</p>
+          <div className="text-3xl font-black text-white text-lavender-glow">{stats.projectsJoined}</div>
+          <p className="text-[10px] text-purple-400 mt-1 font-semibold">Total memberships</p>
         </div>
 
-        <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5">
-          <div className="flex items-center justify-between text-slate-400 mb-2">
-            <span className="text-xs font-semibold">Tasks Assigned</span>
+        <div className="glass-card-3d rounded-2xl p-5">
+          <div className="flex items-center justify-between text-purple-300 mb-2">
+            <span className="text-xs font-bold uppercase tracking-wider">Assigned</span>
             <CheckSquare className="w-4 h-4 text-amber-400" />
           </div>
-          <div className="text-2xl font-black text-white">{stats.tasksAssigned}</div>
-          <p className="text-[10px] text-slate-500 mt-1">Active backlog</p>
+          <div className="text-3xl font-black text-white text-lavender-glow">{stats.tasksAssigned}</div>
+          <p className="text-[10px] text-purple-400 mt-1 font-semibold">Active backlog</p>
         </div>
 
-        <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5">
-          <div className="flex items-center justify-between text-slate-400 mb-2">
-            <span className="text-xs font-semibold">Tasks Completed</span>
+        <div className="glass-card-3d rounded-2xl p-5">
+          <div className="flex items-center justify-between text-purple-300 mb-2">
+            <span className="text-xs font-bold uppercase tracking-wider">Completed</span>
             <CheckSquare className="w-4 h-4 text-emerald-400" />
           </div>
-          <div className="text-2xl font-black text-white">{stats.tasksCompleted}</div>
-          <p className="text-[10px] text-slate-500 mt-1">Finished tasks</p>
+          <div className="text-3xl font-black text-white text-lavender-glow">{stats.tasksCompleted}</div>
+          <p className="text-[10px] text-purple-400 mt-1 font-semibold">Finished tasks</p>
         </div>
 
-        <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 col-span-2 lg:col-span-1">
-          <div className="flex items-center justify-between text-slate-400 mb-2">
-            <span className="text-xs font-semibold">Overall Completion</span>
-            <TrendingUp className="w-4 h-4 text-brand-400" />
+        <div className="glass-card-3d rounded-2xl p-5 col-span-2 lg:col-span-1">
+          <div className="flex items-center justify-between text-purple-300 mb-2">
+            <span className="text-xs font-bold uppercase tracking-wider">Overall Rate</span>
+            <TrendingUp className="w-4 h-4 text-brand-300" />
           </div>
-          <div className="text-2xl font-black text-white">{stats.overallCompletionPercentage}%</div>
+          <div className="text-3xl font-black text-white text-lavender-glow">{stats.overallCompletionPercentage}%</div>
           <div className="mt-2">
             <ProgressBar progress={stats.overallCompletionPercentage} size="sm" showLabel={false} />
           </div>
@@ -134,10 +136,10 @@ export const DashboardPage = () => {
         {/* Left 2 Cols: My Projects */}
         <div className="lg:col-span-2 space-y-6">
           <div className="flex items-center justify-between">
-            <h2 className="text-lg font-bold text-white flex items-center gap-2">
-              <FolderKanban className="w-5 h-5 text-brand-400" /> My Projects
+            <h2 className="text-xl font-black text-white flex items-center gap-2">
+              <FolderKanban className="w-5 h-5 text-brand-300" /> My Projects
             </h2>
-            <Link to="/projects" className="text-xs font-semibold text-brand-400 hover:underline flex items-center gap-1">
+            <Link to="/projects" className="text-xs font-bold text-brand-300 hover:text-white flex items-center gap-1 transition-colors">
               Explore All Projects <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
@@ -155,7 +157,7 @@ export const DashboardPage = () => {
               onAction={() => (window.location.href = '/projects')}
             />
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               {myProjects.map((project) => (
                 <ProjectCard key={project._id} project={project} />
               ))}
@@ -163,13 +165,13 @@ export const DashboardPage = () => {
           )}
 
           {/* Upcoming Tasks Section */}
-          <div className="pt-6 border-t border-slate-800/80 space-y-4">
-            <h2 className="text-lg font-bold text-white flex items-center gap-2">
+          <div className="pt-6 border-t border-purple-500/20 space-y-4">
+            <h2 className="text-xl font-black text-white flex items-center gap-2">
               <Clock className="w-5 h-5 text-amber-400" /> Upcoming Tasks Assigned To You
             </h2>
 
             {upcomingTasks.length === 0 ? (
-              <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 text-center text-xs text-slate-400">
+              <div className="glass-card-3d rounded-2xl p-6 text-center text-xs text-purple-300 font-semibold">
                 🎉 No pending tasks! You are completely up to date.
               </div>
             ) : (
@@ -177,7 +179,7 @@ export const DashboardPage = () => {
                 {upcomingTasks.map((task) => (
                   <div
                     key={task._id}
-                    className="bg-slate-900 border border-slate-800 hover:border-slate-700 rounded-xl p-4 flex items-center justify-between gap-4 transition-all"
+                    className="glass-card-3d rounded-2xl p-4 flex items-center justify-between gap-4 transition-all"
                   >
                     <div className="space-y-1 min-w-0">
                       <div className="flex items-center gap-2">
@@ -195,8 +197,8 @@ export const DashboardPage = () => {
                           {task.priority}
                         </Badge>
                       </div>
-                      <p className="text-[11px] text-slate-400 truncate">
-                        Project: <span className="text-slate-200">{task.project?.title || 'Team Project'}</span>
+                      <p className="text-[11px] text-purple-300 truncate">
+                        Project: <span className="text-white font-semibold">{task.project?.title || 'Team Project'}</span>
                       </p>
                     </div>
 
@@ -205,8 +207,8 @@ export const DashboardPage = () => {
                         {task.status}
                       </Badge>
                       {task.dueDate && (
-                        <div className="text-[10px] text-slate-400 flex items-center gap-1 justify-end">
-                          <Calendar className="w-3 h-3 text-slate-500" />
+                        <div className="text-[10px] text-purple-300 flex items-center gap-1 justify-end font-medium">
+                          <Calendar className="w-3 h-3 text-brand-300" />
                           {new Date(task.dueDate).toLocaleDateString()}
                         </div>
                       )}
@@ -220,28 +222,28 @@ export const DashboardPage = () => {
 
         {/* Right Col: Activity Feed */}
         <div className="space-y-6">
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-4">
-            <h3 className="text-base font-bold text-white flex items-center gap-2">
-              <Activity className="w-4 h-4 text-emerald-400" /> Recent Team Activity
+          <div className="glass-card-3d rounded-3xl p-6 space-y-5">
+            <h3 className="text-lg font-black text-white flex items-center gap-2">
+              <Activity className="w-5 h-5 text-brand-300" /> Recent Team Activity
             </h3>
 
             <div className="space-y-4">
               {recentActivities.length === 0 ? (
-                <p className="text-xs text-slate-500 italic">No recent activity logged.</p>
+                <p className="text-xs text-purple-400 italic">No recent activity logged.</p>
               ) : (
                 recentActivities.map((act) => (
-                  <div key={act._id} className="flex items-start gap-3 text-xs border-b border-slate-800/60 pb-3 last:border-0 last:pb-0">
+                  <div key={act._id} className="flex items-start gap-3 text-xs border-b border-purple-500/20 pb-3.5 last:border-0 last:pb-0">
                     <img
                       src={act.user?.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${act.user?.name}`}
                       alt={act.user?.name}
-                      className="w-7 h-7 rounded-lg object-cover bg-slate-800 shrink-0 mt-0.5"
+                      className="w-8 h-8 rounded-xl object-cover bg-purple-950 shrink-0 mt-0.5 border border-purple-400/40"
                     />
                     <div className="min-w-0 flex-1">
-                      <p className="text-slate-300">
+                      <p className="text-purple-200">
                         <span className="font-bold text-white">{act.user?.name}</span>{' '}
                         {act.action}
                       </p>
-                      <span className="text-[10px] text-slate-500 mt-1 block">
+                      <span className="text-[10px] text-purple-400 mt-1 block font-medium">
                         {new Date(act.createdAt).toLocaleDateString()} at{' '}
                         {new Date(act.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                       </span>
@@ -256,3 +258,4 @@ export const DashboardPage = () => {
     </div>
   );
 };
+
