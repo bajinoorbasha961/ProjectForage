@@ -1,14 +1,17 @@
 # Dependencies
 node_modules/
+**/node_modules/
 .pnpm-store/
 
 # Production builds
 client/dist/
+dist/
 build/
 
 # Environment variables
 .env
 *.env.local
+.env.*.local
 
 # Logs
 *.log
