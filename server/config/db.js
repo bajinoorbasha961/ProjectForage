@@ -1,17 +1,33 @@
 const mongoose = require('mongoose');
 
+const autoSeedCheck = async () => {
+  try {
+    const User = require('../models/User');
+    const userCount = await User.countDocuments();
+    if (userCount === 0) {
+      console.log('🌱 Empty database detected! Auto-seeding initial demo data...');
+      const { seedData } = require('../utils/seed');
+      await seedData();
+    }
+  } catch (err) {
+    console.warn(`Auto-seed check notice: ${err.message}`);
+  }
+};
+
 const connectDB = async () => {
   try {
     const mongoUri = process.env.MONGO_URI;
     const localUri = 'mongodb://127.0.0.1:27017/project_forge';
+    let conn;
     
     // 1. Try primary MONGO_URI if provided in environment
     if (mongoUri) {
       try {
-        const conn = await mongoose.connect(mongoUri, {
+        conn = await mongoose.connect(mongoUri, {
           serverSelectionTimeoutMS: 5000,
         });
         console.log(`MongoDB Connected: ${conn.connection.host}`);
+        await autoSeedCheck();
         return conn;
       } catch (err) {
         console.warn(`Could not connect to primary MONGO_URI: ${err.message}`);
@@ -20,10 +36,11 @@ const connectDB = async () => {
 
     // 2. Try local MongoDB instance (useful for local development)
     try {
-      const conn = await mongoose.connect(localUri, {
+      conn = await mongoose.connect(localUri, {
         serverSelectionTimeoutMS: 2000,
       });
       console.log(`MongoDB Connected (Local): ${conn.connection.host}`);
+      await autoSeedCheck();
       return conn;
     } catch (err) {
       console.warn(`Could not connect to local MongoDB (${localUri}): ${err.message}`);
@@ -36,8 +53,9 @@ const connectDB = async () => {
       const mongod = await MongoMemoryServer.create();
       const uri = mongod.getUri();
       
-      const conn = await mongoose.connect(uri);
+      conn = await mongoose.connect(uri);
       console.log(`MongoDB Memory Server Connected: ${conn.connection.host}`);
+      await autoSeedCheck();
       return conn;
     } else {
       throw new Error('MONGO_URI is missing or unreachable in production environment.');

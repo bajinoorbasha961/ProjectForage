@@ -542,11 +542,6 @@ const seedData = async () => {
         user: ananya._id,
         action: 'joined the team',
       },
-      {
-        project: forgeProj._id,
-        user: rahul._id,
-        action: 'completed task "Design MongoDB Schemas & Indexing"',
-      },
     ]);
 
     console.log('✅ Database successfully seeded!');
@@ -554,11 +549,19 @@ const seedData = async () => {
     console.log('Email: demo@projectforge.com');
     console.log('Password: Demo@12345');
 
-    process.exit(0);
+    if (require.main === module) {
+      process.exit(0);
+    }
   } catch (error) {
     console.error('❌ Seeding Error:', error);
-    process.exit(1);
+    if (require.main === module) {
+      process.exit(1);
+    }
   }
 };
 
-seedData();
+module.exports = { seedData };
+
+if (require.main === module) {
+  seedData();
+}
