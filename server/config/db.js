@@ -2,18 +2,30 @@ const mongoose = require('mongoose');
 
 const connectDB = async () => {
   try {
-    const mongoUri = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/project_forge';
+    const mongoUri = process.env.MONGO_URI;
+    const localUri = 'mongodb://127.0.0.1:27017/project_forge';
     
-    // Attempt connection to specified MONGO_URI with reasonable timeout for cloud connections
+    if (mongoUri) {
+      try {
+        const conn = await mongoose.connect(mongoUri, {
+          serverSelectionTimeoutMS: 3000,
+        });
+        console.log(`MongoDB Connected (Primary): ${conn.connection.host}`);
+        return conn;
+      } catch (err) {
+        console.warn(`Could not connect to primary MONGO_URI: ${err.message}`);
+      }
+    }
+
     try {
-      const conn = await mongoose.connect(mongoUri, {
-        serverSelectionTimeoutMS: 5000,
+      const conn = await mongoose.connect(localUri, {
+        serverSelectionTimeoutMS: 3000,
       });
-      console.log(`MongoDB Connected: ${conn.connection.host}`);
+      console.log(`MongoDB Connected (Local): ${conn.connection.host}`);
       return conn;
     } catch (err) {
-      console.warn(`Could not connect to primary MONGO_URI (${mongoUri}): ${err.message}`);
-      console.log('Starting MongoMemoryServer fallback for seamless out-of-the-box operation...');
+      console.warn(`Could not connect to local MongoDB (${localUri}): ${err.message}`);
+      console.log('Starting MongoMemoryServer fallback...');
       
       const { MongoMemoryServer } = require('mongodb-memory-server');
       const mongod = await MongoMemoryServer.create();
