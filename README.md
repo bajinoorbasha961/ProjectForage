@@ -142,6 +142,20 @@ npm run dev
 - **Frontend Application**: `http://localhost:5173`
 - **Backend API Server**: `http://localhost:5000`
 
+## 🌐 Deployment Settings (Vercel & Render)
+
+- **Frontend (Vercel)**:
+  - Root Directory: `client` (or root)
+  - Build Command: `npm run build`
+  - Output Directory: `dist`
+  - Environment Variables: `VITE_API_URL=https://your-backend.onrender.com/api`
+
+- **Backend (Render)**:
+  - Root Directory: `server`
+  - Build Command: `npm install`
+  - Start Command: `node server.js`
+  - Environment Variables: `MONGO_URI`, `JWT_SECRET`, `CLIENT_URL=https://your-app.vercel.app`
+
 ---
 
 ## 🔮 Future Improvements
