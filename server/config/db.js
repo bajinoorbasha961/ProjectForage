@@ -5,28 +5,33 @@ const connectDB = async () => {
     const mongoUri = process.env.MONGO_URI;
     const localUri = 'mongodb://127.0.0.1:27017/project_forge';
     
+    // 1. Try primary MONGO_URI if provided in environment
     if (mongoUri) {
       try {
         const conn = await mongoose.connect(mongoUri, {
-          serverSelectionTimeoutMS: 3000,
+          serverSelectionTimeoutMS: 5000,
         });
-        console.log(`MongoDB Connected (Primary): ${conn.connection.host}`);
+        console.log(`MongoDB Connected: ${conn.connection.host}`);
         return conn;
       } catch (err) {
         console.warn(`Could not connect to primary MONGO_URI: ${err.message}`);
       }
     }
 
+    // 2. Try local MongoDB instance (useful for local development)
     try {
       const conn = await mongoose.connect(localUri, {
-        serverSelectionTimeoutMS: 3000,
+        serverSelectionTimeoutMS: 2000,
       });
       console.log(`MongoDB Connected (Local): ${conn.connection.host}`);
       return conn;
     } catch (err) {
       console.warn(`Could not connect to local MongoDB (${localUri}): ${err.message}`);
+    }
+
+    // 3. Fallback to MongoMemoryServer only for local dev/testing
+    if (process.env.NODE_ENV !== 'production') {
       console.log('Starting MongoMemoryServer fallback...');
-      
       const { MongoMemoryServer } = require('mongodb-memory-server');
       const mongod = await MongoMemoryServer.create();
       const uri = mongod.getUri();
@@ -34,10 +39,14 @@ const connectDB = async () => {
       const conn = await mongoose.connect(uri);
       console.log(`MongoDB Memory Server Connected: ${conn.connection.host}`);
       return conn;
+    } else {
+      throw new Error('MONGO_URI is missing or unreachable in production environment.');
     }
   } catch (error) {
     console.error(`Database Connection Error: ${error.message}`);
-    process.exit(1);
+    if (process.env.NODE_ENV === 'production') {
+      throw error;
+    }
   }
 };
 
