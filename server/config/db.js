@@ -18,57 +18,47 @@ const connectDB = async () => {
   if (mongoose.connection.readyState >= 1) {
     return mongoose.connection;
   }
-  try {
-    const mongoUri =
-      process.env.MONGO_URI ||
-      'mongodb+srv://bajinoorbasha961_db_user:RcbSpbjPQbndNErQ@cluster0.eoixpnk.mongodb.net/project_forge?retryWrites=true&w=majority&appName=Cluster0';
-    const localUri = 'mongodb://127.0.0.1:27017/project_forge';
-    let conn;
-    
-    // 1. Try primary MONGO_URI if provided in environment
-    if (mongoUri) {
-      try {
-        conn = await mongoose.connect(mongoUri, {
-          serverSelectionTimeoutMS: 5000,
-        });
-        console.log(`MongoDB Connected: ${conn.connection.host}`);
-        await autoSeedCheck();
-        return conn;
-      } catch (err) {
-        console.warn(`Could not connect to primary MONGO_URI: ${err.message}`);
-      }
-    }
 
-    // 2. Try local MongoDB instance (useful for local development)
+  const mongoUri =
+    process.env.MONGO_URI ||
+    'mongodb+srv://bajinoorbasha961_db_user:RcbSpbjPQbndNErQ@cluster0.eoixpnk.mongodb.net/project_forge?retryWrites=true&w=majority&appName=Cluster0';
+
+  try {
+    const conn = await mongoose.connect(mongoUri, {
+      serverSelectionTimeoutMS: 4000,
+    });
+    console.log(`MongoDB Connected: ${conn.connection.host}`);
+    await autoSeedCheck();
+    return conn;
+  } catch (err) {
+    console.warn(`Primary MONGO_URI connection notice: ${err.message}`);
+  }
+
+  // Local & Memory Server fallbacks for development only
+  if (process.env.NODE_ENV !== 'production') {
     try {
-      conn = await mongoose.connect(localUri, {
+      const localUri = 'mongodb://127.0.0.1:27017/project_forge';
+      const conn = await mongoose.connect(localUri, {
         serverSelectionTimeoutMS: 2000,
       });
       console.log(`MongoDB Connected (Local): ${conn.connection.host}`);
       await autoSeedCheck();
       return conn;
     } catch (err) {
-      console.warn(`Could not connect to local MongoDB (${localUri}): ${err.message}`);
+      console.warn(`Local MongoDB notice: ${err.message}`);
     }
 
-    // 3. Fallback to MongoMemoryServer only for local dev/testing
-    if (process.env.NODE_ENV !== 'production') {
+    try {
       console.log('Starting MongoMemoryServer fallback...');
       const { MongoMemoryServer } = require('mongodb-memory-server');
       const mongod = await MongoMemoryServer.create();
       const uri = mongod.getUri();
-      
-      conn = await mongoose.connect(uri);
+      const conn = await mongoose.connect(uri);
       console.log(`MongoDB Memory Server Connected: ${conn.connection.host}`);
       await autoSeedCheck();
       return conn;
-    } else {
-      throw new Error('MONGO_URI is missing or unreachable in production environment.');
-    }
-  } catch (error) {
-    console.error(`Database Connection Error: ${error.message}`);
-    if (process.env.NODE_ENV === 'production') {
-      throw error;
+    } catch (err) {
+      console.warn(`MongoMemoryServer fallback notice: ${err.message}`);
     }
   }
 };
