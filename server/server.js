@@ -153,8 +153,11 @@ app.use(errorHandler);
 // Socket.IO Logic
 initChatSocket(io);
 
-const PORT = process.env.PORT || 5000;
+if (require.main === module) {
+  const PORT = process.env.PORT || 5000;
+  server.listen(PORT, () => {
+    console.log(`🚀 Project Forge Server running on port ${PORT}`);
+  });
+}
 
-server.listen(PORT, () => {
-  console.log(`🚀 Project Forge Server running on port ${PORT}`);
-});
+module.exports = app;

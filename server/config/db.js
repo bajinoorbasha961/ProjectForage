@@ -15,8 +15,13 @@ const autoSeedCheck = async () => {
 };
 
 const connectDB = async () => {
+  if (mongoose.connection.readyState >= 1) {
+    return mongoose.connection;
+  }
   try {
-    const mongoUri = process.env.MONGO_URI;
+    const mongoUri =
+      process.env.MONGO_URI ||
+      'mongodb+srv://bajinoorbasha961_db_user:RcbSpbjPQbndNErQ@cluster0.eoixpnk.mongodb.net/project_forge?retryWrites=true&w=majority&appName=Cluster0';
     const localUri = 'mongodb://127.0.0.1:27017/project_forge';
     let conn;
     
