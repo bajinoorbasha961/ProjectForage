@@ -38,8 +38,10 @@ const io = new Server(server, {
   },
 });
 
-// Connect Database
-connectDB();
+// Connect Database (only when running standalone server)
+if (require.main === module) {
+  connectDB().catch((err) => console.warn('DB connect notice:', err.message));
+}
 
 // Express Middlewares
 app.use(helmet({ contentSecurityPolicy: false }));
