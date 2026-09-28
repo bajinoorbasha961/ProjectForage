@@ -36,6 +36,16 @@ app.options('*', cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Database connection middleware
+app.use(async (req, res, next) => {
+  try {
+    await connectDB();
+  } catch (err) {
+    console.warn('DB connection notice:', err.message);
+  }
+  next();
+});
+
 app.get(['/api/health', '/health'], (req, res) => {
   res.json({ status: 'ok', message: 'Project Forge API is running on Vercel' });
 });
@@ -53,11 +63,4 @@ app.use(['/api', '/'], chatRoutes);
 
 app.use(errorHandler);
 
-module.exports = async (req, res) => {
-  try {
-    await connectDB();
-  } catch (err) {
-    console.warn('Vercel API DB connection notice:', err.message);
-  }
-  return app(req, res);
-};
+module.exports = app;
