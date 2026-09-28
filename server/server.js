@@ -135,17 +135,17 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', message: 'Project Forge API is running' });
 });
 
-// API Routes
-app.use('/api/auth', authRoutes);
-app.use('/api/users', userRoutes);
-app.use('/api/projects', projectRoutes);
-app.use('/api/invitations', invitationRoutes);
-app.use('/api', taskRoutes);
-app.use('/api', milestoneRoutes);
-app.use('/api', discussionRoutes);
-app.use('/api', chatRoutes);
-app.use('/api/notifications', notificationRoutes);
-app.use('/api/dashboard', dashboardRoutes);
+// API Routes (supports both /api/* and /* paths for Vercel serverless functions)
+app.use(['/api/auth', '/auth'], authRoutes);
+app.use(['/api/users', '/users'], userRoutes);
+app.use(['/api/projects', '/projects'], projectRoutes);
+app.use(['/api/invitations', '/invitations'], invitationRoutes);
+app.use(['/api/notifications', '/notifications'], notificationRoutes);
+app.use(['/api/dashboard', '/dashboard'], dashboardRoutes);
+app.use(['/api', '/'], taskRoutes);
+app.use(['/api', '/'], milestoneRoutes);
+app.use(['/api', '/'], discussionRoutes);
+app.use(['/api', '/'], chatRoutes);
 
 // Error Handler Middleware
 app.use(errorHandler);
